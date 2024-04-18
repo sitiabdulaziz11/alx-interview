@@ -1,1 +1,1 @@
-<h1>This repo is For alx interview projects</h1>
+<h1>For alx interview projects</h1>
