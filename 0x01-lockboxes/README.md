@@ -9,12 +9,12 @@
 
 <a href="https://intranet.alxswe.com/rltoken/eVcYI8g-6nF0Na46xnRdhw">Graph Theory (Khan Academy)</a>
 
-***** 3.Algorithmic Complexity:*****
+***** 3.Algorithmic Complexity:
 
 <p>Understanding the time and space complexity of your solution is important, as it can help in writing more efficient algorithms.</p>
 <a href="https://intranet.alxswe.com/rltoken/01qym1qAJUkLrb47PvqnKg">Big O Notation (GeeksforGeeks)</a>
 
-4. *** Recursion:***
+4. *** Recursion:
   <p> Some solutions might require a recursive approach to traverse through the boxes and keys.</p>
   <a href="https://intranet.alxswe.com/rltoken/zpEuvv0l9EHohIx-HwiAAA">Recursion in Python (Real Python)</a>
 
