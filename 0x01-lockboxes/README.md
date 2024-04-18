@@ -14,16 +14,16 @@
 <p>Understanding the time and space complexity of your solution is important, as it can help in writing more efficient algorithms.</p>
 <a href="https://intranet.alxswe.com/rltoken/01qym1qAJUkLrb47PvqnKg">Big O Notation (GeeksforGeeks)</a>
 
-4. ### Recursion:
+ ### 4. Recursion:
   <p> Some solutions might require a recursive approach to traverse through the boxes and keys.</p>
   <a href="https://intranet.alxswe.com/rltoken/zpEuvv0l9EHohIx-HwiAAA">Recursion in Python (Real Python)</a>
 
-  5. <h4>Queue and Stack:</h4>
+   <h4> 5.Queue and Stack:</h4>
   <p>Knowing how to use queues and stacks is crucial if implementing a breadth-first search (BFS) or depth-first search (DFS) algorithm to traverse through the keys and boxes.</p>
 
   <a href="https://intranet.alxswe.com/rltoken/CQLm4RJrdwyo2DAcNCtwIA">Python Queue and Stack (GeeksforGeeks)</a>
 
-  6. <h4>Set Operations:</h4>
+   <h4> 6.Set Operations:</h4>
   <p>Understanding how to use sets for keeping track of visited boxes and available keys can optimize the search process.</p>
 
   <a href="https://intranet.alxswe.com/rltoken/zkmtaPqAbKyxx41kRw7ulA">Python Sets (Python Official Documentation)>
