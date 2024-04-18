@@ -8,6 +8,9 @@ def canUnlockAll(boxes):
     method that determines if all the boxes can be opened.
     """
 
+    if (type(boxes)) is not list and len(boxes) == 0:
+        return False
+
     visited_box = [False] * len(boxes)
     visited_box[0] = True
 
