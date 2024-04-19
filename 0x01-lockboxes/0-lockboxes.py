@@ -29,9 +29,6 @@ def canUnlockAll(boxes):
         for key in boxes[box_number]:
             if key < len(boxes) and not visited_box[key]:
                 dfs(key)
-            else:
-                return False
-        return False
     dfs(0)
 
     return all(visited_box)
