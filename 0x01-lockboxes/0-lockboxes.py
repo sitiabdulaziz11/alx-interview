@@ -1,34 +1,25 @@
-#!/usr/bin/python3
-"""Module to determine if all the boxes can be opened
-"""
-
-
 def canUnlockAll(boxes):
     """
-    method that determines if all the boxes can be opened.
+    Method that determines if all the boxes can be opened.
     """
-
-    if (type(boxes)) is not list:
+    if not isinstance(boxes, list):
         return False
 
     if len(boxes) == 0:
         return False
 
-    visited_box = [False] * len(boxes)
+    num_boxes = len(boxes)
+    visited_box = [False] * num_boxes
     visited_box[0] = True
 
-    def dfs(box_number):
-        """Depth first search algorithm
+    stack = [0]  # Using a stack for iterative DFS
 
-        Args:
-            box_number (_type_): variable
-            that indicate the boxes number or index of box.
-        """
-        visited_box[box_number] = True
+    while stack:
+        current_box = stack.pop()
 
-        for key in boxes[box_number]:
-            if key < len(boxes) and not visited_box[key]:
-                dfs(key)
-    dfs(0)
+        for key in boxes[current_box]:
+            if key < num_boxes and not visited_box[key]:
+                visited_box[key] = True
+                stack.append(key)
 
     return all(visited_box)
