@@ -1,0 +1,17 @@
+#!/usr/bin/python3
+"""
+Log Parsing Project
+"""
+import sys
+
+
+"""with open('filn', encoding="utf-8") as f:
+    read_line = f.readline()"""
+totfil_size = []
+cont_statcod = []
+
+if not '\n':
+    for line in sys.stdin:
+        totfil_size.append(line.strip())
+        if len(totfil_size) % 10 == 0:
+            print(totfil_size)
