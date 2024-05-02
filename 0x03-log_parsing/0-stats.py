@@ -4,41 +4,32 @@ Log Parsing Project
 """
 import sys
 
+total_file_size = 0
+status_code_counts = {200: 0, 301: 0, 400: 0, 401: 0,
+                      403: 0, 404: 0, 405: 0, 500: 0}
+line_count = 0
 
-def print_metrics(file_size, status_codes):
-    """
-    Compute metrics
-    """
-    print("File size: {}".format(file_size))
-    codes_sorted = sorted(status_codes.keys())
-    for code in codes_sorted:
-        if status_codes[code] > 0:
-            print("{}: {}".format(code, status_codes[code]))
+try:
+    for line in sys.stdin:
+        line = line.strip()
+        parts = line.split()
+        if len(parts) == 7:  # Assuming each line has 7 parts
+            status_code = int(parts[4])
+            file_size = int(parts[5])
+            total_file_size += file_size
+            status_code_counts[status_code] += 1
+            line_count += 1
 
+        if line_count == 10:
+            print("Total file size: ", total_file_size)
+            for code, count in sorted(status_code_counts.items()):
+                if count > 0:
+                    print(f"{code}: {count}")
+            line_count = 0
 
-codes_count = {'200': 0, '301': 0, '400': 0, '401': 0,
-               '403': 0, '404': 0, '405': 0, '500': 0}
-file_size_total = 0
-count = 0
-
-if __name__ == "__main__":
-    try:
-        for line in sys.stdin:
-            try:
-                status_code = line.split()[-2]
-                if status_code in codes_count.keys():
-                    codes_count[status_code] += 1
-                # Grab file size
-                file_size = int(line.split()[-1])
-                file_size_total += file_size
-            except Exception:
-                pass
-            # print metrics if 10 lines have been read
-            count += 1
-            if count == 10:
-                print_metrics(file_size_total, codes_count)
-                count = 0
-    except KeyboardInterrupt:
-        print_metrics(file_size_total, codes_count)
-        raise
-    print_metrics(file_size_total, codes_count)
+except KeyboardInterrupt:
+    print("Interrupted!")
+    print("Total file size: ", total_file_size)
+    for code, count in sorted(status_code_counts.items()):
+        if count > 0:
+            print(f"{code}: {count}")
