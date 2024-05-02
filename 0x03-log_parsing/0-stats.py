@@ -2,46 +2,44 @@
 """
 Log Parsing Project
 """
-from sys import stdin
-
-status_codes = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
-}
-
-size = 0
+import sys
 
 
-def print_stats():
-    """Prints the accumulated logs"""
-    print("File size: {}".format(size))
-    for status in sorted(status_codes.keys()):
-        if status_codes[status]:
-            print("{}: {}".format(status, status_codes[status]))
+def compute_metrics(file_size, code_status):
+    """
+    Compute metrics
+    """
+    print("File size: {}".format(file_size))
+    sorted_codes = sorted(code_status.keys())
+    for code in sorted_codes:
+        if code_status[code] > 0:
+            print("{}: {}".format(code, code_status[code]))
 
+
+num_codes = {'200': 0, '301': 0, '400': 0, '401': 0,
+             '403': 0, '404': 0, '405': 0, '500': 0}
+total_file_size = 0
+count = 0
 
 if __name__ == "__main__":
-    count = 0
     try:
-        for line in stdin:
+        for line in sys.stdin:
             try:
-                items = line.split()
-                size += int(items[-1])
-                if items[-2] in status_codes:
-                    status_codes[items[-2]] += 1
+                status_code = line.split()[-2]
+                if status_code in num_codes.keys():
+                    num_codes[status_code] += 1
+                # Grab file size
+                file_size = int(line.split()[-1])
+                total_file_size += file_size
             except Exception:
                 pass
-            if count == 9:
-                print_stats()
-                count = -1
+            # print metrics if 10 lines have been read
             count += 1
+            if count == 10:
+                compute_metrics(total_file_size, num_codes)
+                count = 0
     except KeyboardInterrupt:
-        print_stats()
+        compute_metrics(total_file_size, num_codes)
         raise
-    print_stats()
+
+    compute_metrics(total_file_size, num_codes)
