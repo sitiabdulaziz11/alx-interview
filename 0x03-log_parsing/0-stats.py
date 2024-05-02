@@ -5,20 +5,20 @@ Log Parsing Project
 import sys
 
 
-def compute_metrics(file_size, code_status):
+def print_metrics(file_size, status_codes):
     """
     Compute metrics
     """
     print("File size: {}".format(file_size))
-    sorted_codes = sorted(code_status.keys())
-    for code in sorted_codes:
-        if code_status[code] > 0:
-            print("{}: {}".format(code, code_status[code]))
+    codes_sorted = sorted(status_codes.keys())
+    for code in codes_sorted:
+        if status_codes[code] > 0:
+            print("{}: {}".format(code, status_codes[code]))
 
 
-num_codes = {'200': 0, '301': 0, '400': 0, '401': 0,
-             '403': 0, '404': 0, '405': 0, '500': 0}
-total_file_size = 0
+codes_count = {'200': 0, '301': 0, '400': 0, '401': 0,
+               '403': 0, '404': 0, '405': 0, '500': 0}
+file_size_total = 0
 count = 0
 
 if __name__ == "__main__":
@@ -26,20 +26,19 @@ if __name__ == "__main__":
         for line in sys.stdin:
             try:
                 status_code = line.split()[-2]
-                if status_code in num_codes.keys():
-                    num_codes[status_code] += 1
+                if status_code in codes_count.keys():
+                    codes_count[status_code] += 1
                 # Grab file size
                 file_size = int(line.split()[-1])
-                total_file_size += file_size
+                file_size_total += file_size
             except Exception:
                 pass
             # print metrics if 10 lines have been read
             count += 1
             if count == 10:
-                compute_metrics(total_file_size, num_codes)
+                print_metrics(file_size_total, codes_count)
                 count = 0
     except KeyboardInterrupt:
-        compute_metrics(total_file_size, num_codes)
+        print_metrics(file_size_total, codes_count)
         raise
-
-    compute_metrics(total_file_size, num_codes)
+    print_metrics(file_size_total, codes_count)
