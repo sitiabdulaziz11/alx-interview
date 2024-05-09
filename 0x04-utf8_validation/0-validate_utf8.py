@@ -2,37 +2,50 @@
 """
 UTF-8 Validation
 """
+from itertools import takewhile
+
+
+def int_to_bits(nums):
+    """
+    Helper function
+    Convert ints to bits
+    """
+    for num in nums:
+        bits = []
+        mask = 1 << 8  # cause we have 8 bits per byte. adds up to (11111111)
+        while mask:
+            mask >>= 1
+            bits.append(bool(num & mask))
+        yield bits
 
 
 def validUTF8(data):
     """
-    Method that determines if a given
-    data set represents a valid UTF-8 encoding.
+    Takes a list of ints and returns true if the list is
+    a valid UTF-8 encoding, else returns false
+    Args:
+        data : List of ints representing possible UTF-8 encoding
+    Return:
+        bool : True or False
     """
-    def is_continuation(byte):
-        """
-        Helper function to check if a byte is a continuation byte
-        """
-        return byte & 0b11000000 == 0b10000000
-
-    if not data:
-        return True
-    for byte in data:
-        if byte < 128:
+    bits = int_to_bits(data)
+    for byte in bits:
+        # if single byte char, then valid. continue
+        if byte[0] == 0:
             continue
-        if byte < 192:
+
+        # if here, byte is multi-byte char
+        ones = sum(takewhile(bool, byte))
+        if ones <= 1:
             return False
-        elif byte < 224:
-            num_bytes = 2
-        elif byte < 240:
-            num_bytes = 3
-        elif byte < 248:
-            num_bytes = 4
-        else:
+        if ones >= 4:  # UTF-8 can be 1 to 4 bytes long
             return False
 
-        for _ in range(num_bytes - 1):
-            byte = data.pop(0)
-            if byte is None or not is_continuation(byte):
+        for _ in range(ones - 1):
+            try:
+                byte = next(bits)
+            except StopIteration:
+                return False
+            if byte[0:2] != [1, 0]:
                 return False
     return True
