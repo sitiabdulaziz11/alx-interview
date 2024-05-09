@@ -5,9 +5,21 @@ UTF-8 Validation
 
 
 def is_continuation(byte):
+    """
+    Check if a byte is a continuation byte
+    """
     return (byte & 0b11000000) == 0b10000000
 
+
 def validUTF8(data):
+    """
+    A function that validates whether a list of
+    integers represents a valid UTF-8 encoding.
+    It checks the bytes in the list against UTF-8
+    encoding rules and returns True if the list is valid,
+    otherwise, it returns False.
+    """
+
     if not data:
         return True
 
@@ -35,8 +47,11 @@ def validUTF8(data):
         # Check continuation bytes
         i += 1
         for _ in range(num_bytes - 1):
-            if i >= len(data) or not is_continuation(data[i]):
-                return False
+            try:
+                byte = data[i]
+            except IndexError:
+                if i >= len(data) or not is_continuation(data[i]):
+                    return False
             i += 1
 
     return True
