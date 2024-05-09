@@ -48,10 +48,10 @@ def validUTF8(data):
         i += 1
         for _ in range(num_bytes - 1):
             try:
-                byte = data[i]
-            except IndexError:
                 if i >= len(data) or not is_continuation(data[i]):
                     return False
+            except StopIteration:
+                return False
             i += 1
 
     return True
