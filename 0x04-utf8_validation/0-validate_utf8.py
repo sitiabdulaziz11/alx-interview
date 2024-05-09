@@ -50,7 +50,7 @@ def validUTF8(data):
             if i >= len(data) or not is_continuation(data[i]):
                 return False
             i += 1
-        if StopIteration:
-            return False
+            if StopIteration:
+                return False
 
     return True
