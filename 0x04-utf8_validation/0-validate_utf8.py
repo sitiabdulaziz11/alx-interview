@@ -4,10 +4,10 @@ UTF-8 Validation
 """
 
 
-def validUTF8(data):
-    def is_continuation(byte):
-        return (byte & 0b11000000) == 0b10000000
+def is_continuation(byte):
+    return (byte & 0b11000000) == 0b10000000
 
+def validUTF8(data):
     if not data:
         return True
 
