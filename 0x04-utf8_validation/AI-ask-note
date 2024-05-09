@@ -91,12 +91,7 @@ Any byte value less than 192 cannot be the start byte of a multi-byte character 
 
 By checking byte < 192, we are verifying whether the byte is an invalid start byte for a multi-byte character in UTF-8 encoding. If this condition is true, it means the byte cannot be the start byte of a multi-byte character, and therefore, it is considered invalid according to the UTF-8 encoding rules.
 
-if i + num_bytes > len(data):
-            return False
-        for j in range(i + 1, i + num_bytes):
-            if not is_continuation(data[j]):
-                return False
-        i += num_bytes
+
 
         if not data:
         return True
