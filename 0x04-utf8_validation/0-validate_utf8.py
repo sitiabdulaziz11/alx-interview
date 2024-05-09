@@ -47,11 +47,10 @@ def validUTF8(data):
         # Check continuation bytes
         i += 1
         for _ in range(num_bytes - 1):
-            try:
-                if i >= len(data) or not is_continuation(data[i]):
-                    return False
-            except StopIteration:
+            if i >= len(data) or not is_continuation(data[i]):
                 return False
             i += 1
+        if StopIteration:
+            return False
 
     return True
