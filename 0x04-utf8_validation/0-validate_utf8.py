@@ -16,7 +16,7 @@ def validUTF8(data):
         return byte & 0b11000000 == 0b10000000
 
     if not data:
-        return False
+        return True
     for byte in data:
         if byte < 128:
             continue
