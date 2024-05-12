@@ -8,10 +8,9 @@ def is_continuation(byte, indx, no_bytes):
     """
     Check if a byte is a continuation byte
     """
-    i = 0
+    i = 0 
     while i < no_bytes and indx < len(byte):
-        if not ((byte[indx] & (0b10000000)) != 0 and (
-                                                byte[indx] & (1 << 6)) == 0):
+        if not ((byte[indx] & (0b10000000)) != 0 and (byte[indx] & (1 << 6)) == 0):
             return False
         i += 1
         indx += 1
@@ -30,7 +29,7 @@ def validUTF8(data):
     while i < len(data):
         byte = data[i]
         bit = 7
-        if (byte & 0b10000000) == 0:
+        if (byte & (0b10000000)) == 0:
             i += 1
         elif (byte & (1 << bit)) != 0:
             bit -= 1
@@ -38,26 +37,26 @@ def validUTF8(data):
                 bit -= 1
                 if (byte & (1 << bit)) == 0:
                     i += 1
-                    result = is_continuation(data, i, 1)
+                    result = is_continuation(byte, i, 1)
                     i += 1
+                    if not result:
+                        return False
+            elif (byte & (1 << bit)) != 0:
+                bit -= 1
+                if (byte & (1 << bit)) == 0:
+                    i += 1
+                    result = is_continuation(data, i, 2)
+                    i += 2
                     if not result:
                         return False
                 elif (byte & (1 << bit)) != 0:
                     bit -= 1
                     if (byte & (1 << bit)) == 0:
                         i += 1
-                        result = is_continuation(data, i, 2)
-                        i += 2
+                        result = is_continuation(data, i, 3)
+                        i += 3
                         if not result:
                             return False
-                    elif (byte & (1 << bit)) != 0:
-                        bit -= 1
-                        if (byte & (1 << bit)) == 0:
-                            i += 1
-                            result = is_continuation(data, i, 3)
-                            i += 3
-                            if not result:
-                                return False
-                        else:
-                            return False
+                    else:
+                        return False
     return True
