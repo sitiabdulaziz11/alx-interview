@@ -10,10 +10,13 @@ def is_continuation(byte, indx, no_bytes):
     """
     i = 0 
     while i < no_bytes and indx < len(byte):
-        if not ((byte[indx] & (0b10000000)) != 0 and (byte[indx] & (1 << 6)) == 0):
+        if not ((byte[indx] & (0b10000000)) != 0 and (
+                                                byte[indx] & (1 << 6)) == 0):
             return False
         i += 1
         indx += 1
+    if i != no_bytes:
+        return False
     return True
 
 
