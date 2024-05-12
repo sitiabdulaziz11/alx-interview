@@ -15,6 +15,8 @@ def is_continuation(byte, indx, no_bytes):
             return False
         i += 1
         indx += 1
+    if i != no_bytes:
+        return False
     return True
 
 
