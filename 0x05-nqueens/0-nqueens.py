@@ -1,65 +1,44 @@
 #!/usr/bin/python3
-"""
-Solving the n queens challenge
-"""
+""" N queens """
 import sys
 
 
-def check_int(string):
-    """ Check if the second argument is a valid integer """
-    result = 1
-    if string[0] == '0' and len(string) != 1:
-        return 0
-    for i in range(len(string)):
-        if string[i] not in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
-            result = 0
-            break
-    return result
+if len(sys.argv) > 2 or len(sys.argv) < 2:
+    print("Usage: nqueens N")
+    exit(1)
+
+if not sys.argv[1].isdigit():
+    print("N must be a number")
+    exit(1)
+
+if int(sys.argv[1]) < 4:
+    print("N must be at least 4")
+    exit(1)
+
+n = int(sys.argv[1])
 
 
-def nqueens(n):
-    """ Implementation of the solution for the n queens challenge """
-    all_results = []
-    result = [[0] * 2 for i in range(n)]
-    col = set()
-    posDiag = set()
-    negDiag = set()
-
-    def backtrack(r):
-        """ Recursive backtracking function """
-        if r == n:
-            copy_results = [row[:] for row in result]
-            all_results.append(copy_results)
-            return
-
-        for c in range(n):
-            if c in col or r + c in posDiag or r - c in negDiag:
-                continue
-            col.add(c)
-            posDiag.add(r + c)
-            negDiag.add(r - c)
-            result[r][0] = r
-            result[r][1] = c
-            backtrack(r + 1)
-            col.remove(c)
-            posDiag.remove(r + c)
-            negDiag.remove(r - c)
-            result[r][0] = 0
-            result[r][1] = 0
-    backtrack(0)
-    for row in all_results:
-        print(row)
+def queens(n, i=0, a=[], b=[], c=[]):
+    """ find possible positions """
+    if i < n:
+        for j in range(n):
+            if j not in a and i + j not in b and i - j not in c:
+                yield from queens(n, i + 1, a + [j], b + [i + j], c + [i - j])
+    else:
+        yield a
 
 
-if __name__ == '__main__':
-    if len(sys.argv) == 1 or len(sys.argv) > 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
-    if not check_int(sys.argv[1]):
-        print("N must be a number")
-        sys.exit(1)
-    if int(sys.argv[1]) < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-    n = int(sys.argv[1])
-    nqueens(n)
+def solve(n):
+    """ solve """
+    k = []
+    i = 0
+    for solution in queens(n, 0):
+        for s in solution:
+            k.append([i, s])
+            i += 1
+        print(k)
+        k = []
+        i = 0
+
+
+solve(n)
